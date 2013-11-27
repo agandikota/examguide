@@ -1,0 +1,117 @@
+1. What are static members?
+Ans. Static members are associated with the class itself, not with any specific instance of the class.
+
+2. What does the compiler check for const methods? Can any other method call const obj?
+Ans. The compiler checks that const methods don't actually modify any fields, at all. Also, only constant methods can call constant objects.
+
+3. What should you do if you want to modify a field even if the field is constant?
+Ans. declare the field mutable.
+
+4.When would I need to use the singleton pattern?
+Ans. I want to use the singleton pattern when I want to ensure that only one instance of the class gets created, no matter how many times I attempt to create an instance.
+
+5. I have a static int numInstances in a class student? How and where do I declare this static variable?
+Ans. Declare it as int Student::numInstances = 0;
+
+Static instances should be defined external to this class at file level.
+
+6. Can I have a this pointer in a static member function? What can it access?
+ans. no, because it is not dependent to any specific instance. Due to this, it can access any static member it would like.
+
+7.Where can atexit be found? What does it do?
+Ans. the atexit function takes a fucntion returning void, returns void itself and runs it when the program terminates.
+
+8.What are friend functions. Give an example.
+Ans. Friend functions can see the private members in your class, but aren't a member of the class itself. Classes should strive to have as few as possible friend functions. 
+Ex. friend std::ostream &operator<<(ostream& out, const Vector& v);
+
+9. Describe the three events that happen when an object is created and destroyed?
+When an object is created,
+1. Space is allocated.
+2. Constructor/initializaiton lists are run
+3. Constructor body runs
+
+when an object is destroyed,
+1.Destructor body runs
+2. Destructor are invoked for all fields in reverse order
+3. Space is deallocated.
+
+10. What is composition?
+ans. Embedding an object within another class is called composition.
+See example 
+
+struct Vector{
+    int x, y, z;
+    Vector():x(x),y(y),z(z){};
+}
+
+struct Plane{
+    Plane():v1(1,0,0), v2(2,2,2){};
+}
+
+11. Describe owns-a relationship
+Ans. -B has no existence outside A
+-If A is destroyed, then B is destroyed.
+- If A is copied, then B is copied. (deep copy)
+
+12. Describe aggregation/has-a relationship
+- If A has a B, then B has an existence apart from its association with B
+-If A is destroyed, then B lives on.
+-If A is copied, then B is shallow copied so copies of A share the same B AKA A only has a pointer to B's objects
+
+13. Give an example of owns-a relationship or aggregation.
+
+class Pond{
+    Duck *ducks[maxducks];
+}
+
+class Catalogue{
+    Part *brakes[noOfBrakes];
+    Part *p;
+}
+
+14. Can derived classes(inherits base class's fields and methods) access the private fields they inherit?
+Ans. No, these fields are private in the base class, so derived classes cannot see the private fields they inherit.
+
+15. Describe the four steps when a subclass object is constructed.
+Ans. 1.Superclass is allocated.
+2. Superclass part is allocated.
+3. Fields are initialized
+4. Constructor body runs
+
+16.When giving access permission of private fields in superclass to subclasses, what's better than making private fields in superclass protected?
+ans. create protected acccessor methods that only the subclass can access.
+
+17. When accessing objects through pointers, how does compiler determine to run a method from the superclass or the subclass?
+
+Ans. the compiler uses the type of the pointer or reference, and doesn't care about the actual type. An example would be that a comicbook is a comicbook only when a comicbook points to it.
+
+
+18. Say if you had the following
+Comicbook cb(..,...,...);
+Book *pb = &cb;
+ComicBook *pcb = &cb;
+
+19.How do I make sure that when pb->isItHeavy() runs, ComicBook::isItHeavy runs??
+
+Ans. Since the compiler uses the type of the pointer or reference to determine which isItHeavy() to run, we should declare the method virtual so that this chooses which class method to run based on the actual type of the object at runtime.
+
+20. Define polymorphism
+Ans. Accomodating mutiple types under one abstraction. For example, a function like void f(istream& n) can be passed as istream, that is an ifstream is an istream
+
+21a. If you have a subclass which inherits a superclass with an int as a field and the subclass holds another int, then how would an array of subclass objects behave when passed to a function that takes an array of superclass?
+
+Ans. The function that takes an array of the superclass, will convert the subclass to superclass and lose track of the subclass's indexing. !!POORLY WORDED ANSWER!!
+
+21b. If an array of superclass took a subclass as a parameter (ex. oneArr[0] = Two(1,2)), then what would the accessing superclass give?
+
+Ans. You would only be able to access the first field of the subclass, so 1 would be the only accessible element in the Two in the example above.
+
+22. 
+
+
+
+
+
+
+
