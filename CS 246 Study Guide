@@ -107,11 +107,52 @@ Ans. The function that takes an array of the superclass, will convert the subcla
 
 Ans. You would only be able to access the first field of the subclass, so 1 would be the only accessible element in the Two in the example above.
 
-22. 
+22. How would I be able to accomodate mixed pointer assignments of subclasses and superclasses?
 
+Ans. non-virtual operators only allow for partial assingments whereas virtual operatos allows mixed assignments. make the superclasses abstract, and make the operator= protected in Abstract class to prevent assignment through base class pointers. 
 
+23. Why do abstract classes need one pure virtual method and why the destructor? How do you override the abstract class destructor in the subclass.
 
+every class has a destructor, user-defined or inbuilt which overrides the default destructor.
 
+24. Define the observer patter in context of one class? in context of multiple classes? 
 
+Ans. In one class, there is a subject/publisher idea where the subject is observable, it generates data and publisher does the observing.
+In multiple class, there is a observer/subscriber idea where the observer observes data from the subscriber and responds to it.
 
+25. Give an example of the observer pattern. Does subject need to know about the observer? Draw a diagram of this before the final exam.
 
+A subject could be spreadsheet cells, the observers could be graphs(data in cells) where when cells change, the graph updates itself. No the subject doesn't need to know the details of the observer.
+
+26. Give the method of sequence calls in the observer pattern.
+ 1. Observers are attached to the subject (Subject::attach(Observer *))
+ 2. Subject's state is updated.
+ 3. Subject notifies all observers(Subject::notifyObservers())
+ 4. Each observer queries the state of the subject and responds (Concrete subject::getState())
+
+27. Why can we merge subject and concrete subject? Does the observer need Subject::getState() and give an example of merging subject and observer?
+
+Subject only needs to define the basic attach and detach methods whereas the specific concrete subject would define the getState() method where the concrete subject is inherited from the subject. If the observer being notified is enough, then getState() doesn't need to be called. If the subject is the same as the observer, then we can merge these classes, such as cells in a grid.
+
+28. Define decorator pattern and give an example of it.
+
+Ans.Enhance an object at runtime by decorating it, either by adding features or functionality, most importantly at runtime runtime runtime runtime runtime.
+
+29. Draw a diagram of the decorator pattern, and define a decorator. Is it a "is-a" or "has-a" relation?
+
+Ans. A decorator inherits from Component and has a pointer to a Component,making it an "is-a" and a "has-a" relationship. Since all decorators inherit from Component, the component methods can be used polymorphically on all of them.
+
+!* Insert question for the answer below.
+Ans. Every time you add a decorator,ex. topping, it is decorating the previous object, where each decorator has a pointer to the previous decorator which eventually has pointer to the Concrete component ,ex. crust and pizza sauce
+
+Calling the methods in the abstract Component class will also result in a chain of calls and a single delete component will also lead to a chain of destructors being called, freeing all of allocated memory.
+
+30. What do factory method patterns have to do with singletons?
+
+factory patterns integrate well with singletons. For example,  if you had two classes and you added a new subclass to one of those two classes, then that superclass's children can instantiate that new subclass whereas the other superclass's children cannot, making that new subclass a singleton. In any case, the addition of the singleton is transparent to the client. 
+
+31. Draw an example of a factory method pattern.
+
+32. Define the template method pattern. Give an example
+
+Ans. 
