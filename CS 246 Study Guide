@@ -155,4 +155,27 @@ factory patterns integrate well with singletons. For example,  if you had two cl
 
 32. Define the template method pattern. Give an example
 
-Ans. 
+Ans. Template method pattern allows subclasses to override the superclss behaviour but some aspects of the superclass must stay the same. An example is a red turtle changing the derived drawShell() method but not being able to change the superclass's drawTurtle() method.
+
+33. What are breakpoints?
+
+Ans. Breakpoints tell gdb to stop execution at certain points so you can see what's going on.
+
+Note: break can be used in the context of 'break <function>' or 'break <file><line>'. 'step' runs one line of the program stepping into functions, if necessary whereas 'next' and continue, continues execution wherever you are.
+
+34. Match the following
+
+has-a public inheritance (triangle in UML) 
+owns-a aggregation(empty diamond in UML)
+is-a   composition(solid diamond in UML)
+
+Ans.
+
+has-a aggregation(empty diamond in UML)
+owns-a composition(solid diamond in UML) 
+is-a   public inheritance (triangle in UML) 
+
+35.  What is "uses-for implementation" also called? Define it.
+
+Ans. "Private inheritance" means that public and protected members of the base class become private in subclasses.
+
