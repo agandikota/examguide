@@ -175,7 +175,234 @@ has-a aggregation(empty diamond in UML)
 owns-a composition(solid diamond in UML) 
 is-a   public inheritance (triangle in UML) 
 
-35.  What is "uses-for implementation" also called? Define it.
+35.  What is "uses-for implementation" also called? Define it. Would this create an is-a relationship?
 
-Ans. "Private inheritance" means that public and protected members of the base class become private in subclasses.
+Ans. "Private inheritance" means that public and protected members of the base class become private in subclasses. This wouldn't create an is-a relationship.
 
+36. What should one generally prefer over private inheritance? When should one use private inheritance?
+
+Ans. One should prefer fields over data classes. Use private inheritance to override virtual methods in the superclass and if you want access to protected members.
+
+37. Define a template. Write an example of a template (the template for node is given in ans)? How does compiler treat templates (when it does it compile it?)
+
+Ans. Template is a class parameterized by type. In some sense, node is really a template for a class For example, the template for Node would look like
+
+template <typename T> class Node{
+	T data;
+	Node <T> *next;
+public:
+	Node(T data, Node<T> *next) : data(data), next(next){}
+	T getData() const {return data;}
+	Node<T>* getNext() const {return next;}
+}
+
+The compiler specializes templates at source code level before compilation begins. 
+
+38. Write the template declaration for a list where the type is Node<int> and return type is Node
+
+Ans: Node<Node<int> > list;
+
+39.What is purpose of Singleton design pattern?
+- Ensures a class has only one instance and provide a global point of access to it.
+
+40. Advantages of Singleton Design?
+-One access point to private static instance
+-Reduced namespace : avoids global variables
+-Creates singleton object on demand.
+
+41. What is atexit function?
+-Takes a pointer to a funciton with signature void func(void);
+-Returns 0 on success
+
+42. When is atexit called?
+-func is automatically called when the program normally exits
+-In multiple functions, LIFO order
+
+43. What does a->b(association) in UML diagrams mean?
+- In UML diagrams, a->b means that a has a pointer/reference to b.
+-One doesn't contain each other.
+-either has ptr/ref to b, method argument or local variable
+
+44. Describe aggregation (has-a) and an example
+-whole(a) and part(b) where a->b
+-whole (a) can't create/destroy part(b)
+-a either has (1)ptr/ref to b or (2)array of ptr to b
+ Ex. class Car{
+ 	Tires *tires[4]; //has ptr to b
+ }
+
+45. Describe composition(owns-a) and an example
+-whole(a) is reponsible for life cycle of part(b)
+-a either has (1)array of parts(b), (2) part as member variable, (3) pointer to part with new and delete
+Ex.class Car{
+		Breaks breaks[4];
+}
+
+46. Denote public, private and protected,static, const, type var, type* var, type var[10] and type fn(type arg)?
+
+public +
+private -B
+protected #
+static underlined
+const ALL_CAPS
+type var var:type
+type *var var:type*
+type var[10] var:type[0...10]
+type fn(type arg) fn(type arg):type
+
+47. How does private inheritance affect subclasses?
+A:-public,protected members become private in subclass
+-implement child class without being accessible to others
+
+48. What's a better alternative to private inheritance? When should I use it?
+-prefer fields over inheritance.
+You should use it when you want to;
+- you want to override the virtual method
+- access protected members
+
+49. What's a template?
+-Class parameterized by type.
+-Compiler specializes templates at source code level before the compilation even begins.
+
+template <typename T> class Node {
+	T data;
+	Node<T> *next;
+  public:
+	Node(T data, Node<T> *next) : data(data), next(next) {};
+	T getData() const { return data; }
+	Node<T> *getNext() const { return next; }
+};
+Node<int> intList = new Node<int>(1, new Node<int>(2,0));
+Node<char> charList = new Node<char>(’a’, 0);
+
+50. What does v.pop_back(),v.begin() and v.end() do?
+- v.pop_back() removes and returns the last element
+- v.begin() points to the first element
+- v.end() points to one past the first element
+
+51.Give an example of a loop using an iterator on a vector
+
+for (vector<int>::iterator i = v.begin(); i != v.end(); i++){
+	cout << *i << endl;
+}
+
+52. Give an example of erasing data from a vector
+
+v.erase(v.begin()); //erases first element 
+v.erase(v.end()-1); //erases the last element
+
+53.Define basic use of map
+
+-to create association lists
+- 	map<string,int> m;
+	m["abc"] = 1;
+	m.erase("abc");
+	if (m.count("def")) //returns 0 if not found, 1 if found
+
+54. What if you try to retrieve a key that doesn't exist?
+- It adds it and sets it to 0
+
+55. Give an example of a for loop that iterates over a map. Identify kv pair
+
+map<string, int> m;
+for (map<string, int>::iterator i = m.begin(); i != m.end(); i++){
+	cout << i->first << " " << i->second << endl;
+}
+
+Note that i is the key-value pair
+
+Recall:What are virtual methods?
+-methods chosen on the runtime type of the object on which method is invoked.
+
+56. Describe "double dispatch"
+-operation that gets executed based on the kind of request and two types of recievers(Visitors and elements).
+-lets visitors request different operations on each class of element
+
+57. What is the visitor pattern?
+-Lets you define a new operation without changing the classes that it operates on and stops "polluting classes"
+-adding a new operation requires recompiling all these classes.
+-When an element accepts the visitor, it sends a request to the visitor that encodes the element’s class.
+-It also includes element as argument after which the visitor will execute the operation for that argument.
+-two class hierarchies: nodes being operated on(Node hierarchy) and one for visitors that define operations on elements.(NodeVisitor hierarchy)
+-You add a new class to the visitor class hierarchy.
+-a visitor must visit each element in the object structure.
+
+58. If you had the book hierarchy (recall from examples) and you need to track how many of each book you have, what pattern would you use and how would you implement it (just briefly).
+
+Create a map<string,int> catalogue where it has its own class with the map as a private field and each type of book would have its own visitor function ex. void visit (CSBook &csb) {catalogue[csb.getLanguage()]++;}.
+
+59. Why would the above method fail in the book hierarchy where the catalogue stores a map with each type of book being stored. How would you solve it?
+
+Ans. It wouldn't compile because it has circular include dependencies. We can declare the class without defining it, by replacing the include with class declaration such as instead of #include "blist.h", we would write class BList;
+
+60. Which one of the following code examples use compilation dependencies?
+
+Example I:
+
+class A;
+class D{
+	A *myAp;
+};
+
+Example II:
+class A;
+class E{
+	A f(A x);
+};
+
+
+Example III:
+#include "a.h"
+class C{
+	A myA;
+};
+
+Example IV:
+#include "a.h"
+class C : public A{
+}
+
+Answer: Examples III and IV use compilation dependency whereas examples I and II do not use compilation dependencies. Example IV, since class C inherits from public class A, C needs to know how big A is, similarly for Example III. 
+
+Whereas in example I and II, we know the size of a pointer and the funciton is just a prototype declaration.
+
+61. If our class has a pointer to the other class, we don't need to know about the other class since we have a pointer to the object. If your class is using a method from the other class, do you still need to include the other class?
+
+Ans. Yes, this is a true compilation dependency. Note: one should always try to #include in the .cc file instead of the .h file when possible.
+
+62. Describe the "pimpl" implementation. Describe the bridge pattern.
+
+Ans. The pimpl idiom ("pointer to implementation") involves creating a struct to hold the private data. this way if we were to change some of the private members in the original class, there would be a minimum level of compilation. The bridge pattern uses pimpl idiom with subclassing to accomadate alternate implementations. 
+
+63. Define coupling and give an example of low and high coupling. 
+
+Ans. Coupling is a degree to which distinct program modules depend on or affect each other. Interaction via function calls, shared data implies low coupling. Modules which have access to each other implementation's imply high coupling (friends).
+
+64. Define cohesion and give an example of low and high cohesion. 
+
+Ans. Cohesion is the degree to which elements of a module belong to each other, ie. how much they cooperate to achieve a common goal. A poor cohesion example would be the algorithm library where it has a common theme but otherwise it's a bunch of unrelated algorithms. High cohesion usually implies readability and maintainablity.
+
+65. Give an example of a C-style cast. 
+
+Ans. Node n;
+	 int * i = (int *) &n; // C-style cast
+
+This forces C++ to treat the Node* as an int*.
+
+66. Define the four types of casting available and when you should use each of them.
+
+1. static_cast
+- when you know you have an object of a specific type
+- no runtime checking performed whatsoever.
+ex. double d = 0;
+	int i = static_cast<int> (d);
+ex. Book *b = new CSBook (...);
+	CSBook *csb = static_cast<CSBook*>(b);
+
+One takes responsibility that b actually points to a CSBook.
+
+2. reinterpret_cast
+- allows you to cast any arbitrary types.
+- disregards type safety (avoid or use at own risk)
+Ex. Vector *v;
+	Student *s = reinterpret_cast<Student*> (v);
