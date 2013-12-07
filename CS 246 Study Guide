@@ -406,3 +406,70 @@ One takes responsibility that b actually points to a CSBook.
 - disregards type safety (avoid or use at own risk)
 Ex. Vector *v;
 	Student *s = reinterpret_cast<Student*> (v);
+
+3. const_cast
+- allows you to convert between const and non-const 
+ex. void f(int *p);
+	void g(const int* p){
+		f(const_cast<int*> (p));
+	}
+
+4. dynamic_cast
+-checks if it is safe to convert a superclass pointer to a subclass pointer(ex. book* to csbook*)
+ie. does a tentative cast and see if it succeds
+ex. Book* pb;
+	static_cast<CSBook*>(pb) -> getLanguage();
+
+	changed to
+
+ex. Book *pb;
+	CSBook *csb = dynamic_cast<CSBook*> (pb);
+
+67. What if a dynamic cast fails (ex. pb doesn't point to a CSBook)?
+
+Ans. If the cast works, then subclass object will point to the superclass object. If not, then it is simply set to null. In previous example, csb would be set to null or point to the object.
+
+Note: You can check (if (csb)) to see if it points to the object.
+
+68. Why is using dynamic casting to determine an object's runtime type considered bad? What's a better option
+
+Ans. It is highly coupled to the hierarchy and is considered bad code. Use virtual functions instead or write a visitor if possible.
+
+
+69. Give an example of dynamic casting with references?  Does dyanmic casting work when you have class hierarchies with more than one virtual function?
+
+Ans. CSBook csb(...);
+Book& b = csb;
+CSBook& csb2 = dynamic_cast<CSBook&> (b);
+
+In this case, if the b points to a CSBook, then csb2 is the same reference to the same CSBook
+
+70. Give three examples of when an exception is raised.
+
+When a vector::at (checked version of operator[]) goes out of bounds, when new fails or when dynamic ref cast fails.
+
+Note: the vector's code can detect the error but doesn't know what to do with it and the client can respond but can't detect the error.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
