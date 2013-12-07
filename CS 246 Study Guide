@@ -1,29 +1,34 @@
 1. What are static members?
-Ans. Static members are associated with the class itself, not with any specific instance of the class.
+Ans. Static members are members associated with the class itself, not with any specific instance of the class.
 
-2. What does the compiler check for const methods? Can any other method call const obj?
+2. What does the compiler check for in const methods? Can any other method call const obj?
 Ans. The compiler checks that const methods don't actually modify any fields, at all. Also, only constant methods can call constant objects.
 
-3. What should you do if you want to modify a field even if the field is constant?
+3. What should you do if you want to modify a constant field?
 Ans. declare the field mutable.
 
-4.When would I need to use the singleton pattern?
-Ans. I want to use the singleton pattern when I want to ensure that only one instance of the class gets created, no matter how many times I attempt to create an instance.
+4.When would one need to use the singleton pattern?
+Ans. one would want to use the singleton pattern when one wants to ensure that only one instance of the class gets created, no matter how many times one attempts to create an instance.
 
-5. I have a static int numInstances in a class student? How and where do I declare this static variable?
-Ans. Declare it as int Student::numInstances = 0;
+5. Do I have a static int (ex.numInstances) in the class (ex. student)? How and where would I declare this static variable?
+Ans. Declare it in the implementation ex.int Student::numInstances = 0. Static instances should be defined external to this class at file level.
 
-Static instances should be defined external to this class at file level.
+6. Can I have a 'this' pointer in a static member function? What can it access?
+Ans. No, because static functions are not dependent to any specific instance. Due to this, it can access any static member it would like.
 
-6. Can I have a this pointer in a static member function? What can it access?
-ans. no, because it is not dependent to any specific instance. Due to this, it can access any static member it would like.
+7.Where can atexit be found? What does it do? Give an exmpale of atexit().
+Ans. the atexit function takes a function returning void, returns void itself and runs it when the program terminates.
 
-7.Where can atexit be found? What does it do?
-Ans. the atexit function takes a fucntion returning void, returns void itself and runs it when the program terminates.
+Example of atexit:
+if (!instance){
+	instance = new Wallet;
+	atexit(cleanup);
+}
 
-8.What are friend functions. Give an example.
-Ans. Friend functions can see the private members in your class, but aren't a member of the class itself. Classes should strive to have as few as possible friend functions. 
-Ex. friend std::ostream &operator<<(ostream& out, const Vector& v);
+8.What are friend functions? Give an example.
+Ans. Friend functions can see the private members in your class, but they aren't a member of the class itself. Classes should strive to have as few friend functions as possible. 
+
+Ex. friend std::ostream &operator<<(std::ostream& out, const Vector& v);
 
 9. Describe the three events that happen when an object is created and destroyed?
 When an object is created,
@@ -36,30 +41,33 @@ when an object is destroyed,
 2. Destructor are invoked for all fields in reverse order
 3. Space is deallocated.
 
-10. What is composition?
-ans. Embedding an object within another class is called composition.
+10. What is composition? Give an example
+Ans. Embedding an object within another class is called composition.
 See example 
 
-struct Vector{
+class Vector{
     int x, y, z;
+public:
     Vector():x(x),y(y),z(z){};
 }
 
-struct Plane{
+class Plane{
+	Vector v1,v2;
+public:
     Plane():v1(1,0,0), v2(2,2,2){};
 }
 
-11. Describe owns-a relationship
-Ans. -B has no existence outside A
+11. Describe an 'owns-a' relationship
+Ans.- B has no existence outside A
 -If A is destroyed, then B is destroyed.
 - If A is copied, then B is copied. (deep copy)
 
 12. Describe aggregation/has-a relationship
 - If A has a B, then B has an existence apart from its association with B
 -If A is destroyed, then B lives on.
--If A is copied, then B is shallow copied so copies of A share the same B AKA A only has a pointer to B's objects
+-If A is copied, then B is shallow copied so copies of A share the same B ie. A only has a pointer to B's objects
 
-13. Give an example of owns-a relationship or aggregation.
+13. Give an example of has-a relationship or aggregation.
 
 class Pond{
     Duck *ducks[maxducks];
@@ -74,17 +82,18 @@ class Catalogue{
 Ans. No, these fields are private in the base class, so derived classes cannot see the private fields they inherit.
 
 15. Describe the four steps when a subclass object is constructed.
-Ans. 1.Superclass is allocated.
+Ans. The four steps are:
+
+1. Superclass is allocated.
 2. Superclass part is allocated.
 3. Fields are initialized
 4. Constructor body runs
 
 16.When giving access permission of private fields in superclass to subclasses, what's better than making private fields in superclass protected?
-ans. create protected acccessor methods that only the subclass can access.
+Ans. create protected acccessor methods that only the subclass can access.
 
-17. When accessing objects through pointers, how does compiler determine to run a method from the superclass or the subclass?
-
-Ans. the compiler uses the type of the pointer or reference, and doesn't care about the actual type. An example would be that a comicbook is a comicbook only when a comicbook points to it.
+17. When accessing objects through pointers, how does compiler determine whether to run a method from the superclass or the subclass?
+Ans. The compiler uses the type of the pointer or reference, and doesn't care about the actual type. An example would be that a comicbook is a comicbook only when a comicbook points to it.
 
 
 18. Say if you had the following
@@ -149,7 +158,7 @@ Calling the methods in the abstract Component class will also result in a chain 
 
 30. What do factory method patterns have to do with singletons?
 
-factory patterns integrate well with singletons. For example,  if you had two classes and you added a new subclass to one of those two classes, then that superclass's children can instantiate that new subclass whereas the other superclass's children cannot, making that new subclass a singleton. In any case, the addition of the singleton is transparent to the client. 
+factory patterns integrate well with singletons. For example,  if you had two classes and you added a new subclass to one of those two classes, then that superclass's children can instantiate that new subclass whereas the other superclass's children cannot, making that new subclass a singleton. In any case, the addition of the singleton is trAns.arent to the client. 
 
 31. Draw an example of a factory method pattern.
 
@@ -177,13 +186,13 @@ is-a   public inheritance (triangle in UML)
 
 35.  What is "uses-for implementation" also called? Define it. Would this create an is-a relationship?
 
-Ans. "Private inheritance" means that public and protected members of the base class become private in subclasses. This wouldn't create an is-a relationship.
+Ans. "Private inheritance" meAns.that public and protected members of the base class become private in subclasses. This wouldn't create an is-a relationship.
 
 36. What should one generally prefer over private inheritance? When should one use private inheritance?
 
 Ans. One should prefer fields over data classes. Use private inheritance to override virtual methods in the superclass and if you want access to protected members.
 
-37. Define a template. Write an example of a template (the template for node is given in ans)? How does compiler treat templates (when it does it compile it?)
+37. Define a template. Write an example of a template (the template for node is given in Ans.? How does compiler treat templates (when it does it compile it?)
 
 Ans. Template is a class parameterized by type. In some sense, node is really a template for a class For example, the template for Node would look like
 
@@ -219,7 +228,7 @@ Ans: Node<Node<int> > list;
 -In multiple functions, LIFO order
 
 43. What does a->b(association) in UML diagrams mean?
-- In UML diagrams, a->b means that a has a pointer/reference to b.
+- In UML diagrams, a->b meAns.that a has a pointer/reference to b.
 -One doesn't contain each other.
 -either has ptr/ref to b, method argument or local variable
 
