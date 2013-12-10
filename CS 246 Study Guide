@@ -8,16 +8,13 @@ Ans. The compiler checks that const methods don't actually modify any fields, at
 Ans. declare the field mutable.
 
 4.When would one need to use the singleton pattern?
-Ans. one would want to use the singleton pattern when one wants to ensure that only one instance of the class gets created, no matter how many times one attempts to create an instance.
-
-5. Do I have a static int (ex.numInstances) in the class (ex. student)? How and where would I declare this static variable?
-Ans. Declare it in the implementation ex.int Student::numInstances = 0. Static instances should be defined external to this class at file level.
+Ans. The singleton ensures that only a single instance is created and a reference to it can be passed on as a parameter to other methods where it would be treated as a regular object.
 
 6. Can I have a 'this' pointer in a static member function? What can it access?
 Ans. No, because static functions are not dependent to any specific instance. Due to this, it can access any static member it would like.
 
 7.Where can atexit be found? What does it do? Give an exmpale of atexit().
-Ans. the atexit function takes a function returning void, returns void itself and runs it when the program terminates.
+Ans. The atexit function,found in <cstdlib>, takes a function returning void, returns void itself and runs it when the program terminates.
 
 Example of atexit:
 if (!instance){
