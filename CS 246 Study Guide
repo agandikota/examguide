@@ -1,5 +1,27 @@
-1. What are static members?
-Ans. Static members are members associated with the class itself, not with any specific instance of the class.
+1.What is purpose of Singleton design pattern?
+- Ensures a class has only one instance and provide a global point of access to it.
+
+2. Advantages of Singleton Design?
+-One access point to private static instance
+-Reduced namespace : avoids global variables
+-Creates singleton object on demand.
+
+3. What is atexit function?
+-Takes a pointer to a funciton with signature void func(void);
+-Returns 0 on success
+
+4. When is atexit called?
+-func is automatically called by atexit when the program normally exits
+-In multiple functions, LIFO order
+
+7.Where can atexit be found? What does it do? Give an example of atexit().
+Ans. The atexit function,found in <cstdlib>, takes a function returning void, returns void itself and runs it when the program terminates.
+
+Example of atexit:
+if (!instance){
+	instance = new Wallet;
+	atexit(cleanup);
+}
 
 2. What does the compiler check for in const methods? Can any other method call const obj?
 Ans. The compiler checks that const methods don't actually modify any fields, at all. Also, only constant methods can call constant objects.
@@ -12,15 +34,6 @@ Ans. The singleton ensures that only a single instance is created and a referenc
 
 6. Can I have a 'this' pointer in a static member function? What can it access?
 Ans. No, because static functions are not dependent to any specific instance. Due to this, it can access any static member it would like.
-
-7.Where can atexit be found? What does it do? Give an exmpale of atexit().
-Ans. The atexit function,found in <cstdlib>, takes a function returning void, returns void itself and runs it when the program terminates.
-
-Example of atexit:
-if (!instance){
-	instance = new Wallet;
-	atexit(cleanup);
-}
 
 8.What are friend functions? Give an example.
 Ans. Friend functions can see the private members in your class, but they aren't a member of the class itself. Classes should strive to have as few friend functions as possible. 
@@ -54,15 +67,15 @@ public:
     Plane():v1(1,0,0), v2(2,2,2){};
 }
 
-11. Describe an 'owns-a' relationship
-Ans.- B has no existence outside A
+11. Describe an composition/'owns-a' relationship (solid diamond in UML)
+Ans.-B has no existence outside of A
 -If A is destroyed, then B is destroyed.
 - If A is copied, then B is copied. (deep copy)
 
-12. Describe aggregation/has-a relationship
-- If A has a B, then B has an existence apart from its association with B
+12. Describe aggregation/has-a relationship (hollow diamond in UML notation)
+-If A has a B, then B has an existence apart from its association with A
 -If A is destroyed, then B lives on.
--If A is copied, then B is shallow copied so copies of A share the same B ie. A only has a pointer to B's objects
+-If A is copied, then B is shallow copied, so copies of A share the same B, ie. A only has a pointer to B's objects
 
 13. Give an example of has-a relationship or aggregation.
 
@@ -90,20 +103,19 @@ Ans. The four steps are:
 Ans. create protected acccessor methods that only the subclass can access.
 
 17. When accessing objects through pointers, how does compiler determine whether to run a method from the superclass or the subclass?
-Ans. The compiler uses the type of the pointer or reference, and doesn't care about the actual type. An example would be that a comicbook is a comicbook only when a comicbook points to it.
+Ans. The compiler uses the type of the pointer or reference to determine what method to run, and doesn't care about the actual type. An example would be that a comicbook is a comicbook only when a comicbook points to it.
 
+Say if you had the following
+ Comicbook cb(..,...,...);
+ Book *pb = &cb;
+ ComicBook *pcb = &cb;
 
-18. Say if you had the following
-Comicbook cb(..,...,...);
-Book *pb = &cb;
-ComicBook *pcb = &cb;
+19.How do I make sure that when pb->isItHeavy() runs, when ComicBook::isItHeavy() runs??
 
-19.How do I make sure that when pb->isItHeavy() runs, ComicBook::isItHeavy runs??
+Ans. Since the compiler uses the type of the pointer or reference to determine which isItHeavy() to run, we should declare the method virtual(the one in Book or Comicbook?) so that this chooses which class method to run based on the actual type of the object at runtime.
 
-Ans. Since the compiler uses the type of the pointer or reference to determine which isItHeavy() to run, we should declare the method virtual so that this chooses which class method to run based on the actual type of the object at runtime.
-
-20. Define polymorphism
-Ans. Accomodating mutiple types under one abstraction. For example, a function like void f(istream& n) can be passed as istream, that is an ifstream is an istream
+20. Define polymorphism. Give a simple example.
+Ans. Accomodating mutiple types under one abstraction. For example, a function like void f(istream& n) can take an ifstream, that is an ifstream is an istream.
 
 21a. If you have a subclass which inherits a superclass with an int as a field and the subclass holds another int, then how would an array of subclass objects behave when passed to a function that takes an array of superclass?
 
@@ -115,13 +127,13 @@ Ans. You would only be able to access the first field of the subclass, so 1 woul
 
 22. How would I be able to accomodate mixed pointer assignments of subclasses and superclasses?
 
-Ans. non-virtual operators only allow for partial assingments whereas virtual operatos allows mixed assignments. make the superclasses abstract, and make the operator= protected in Abstract class to prevent assignment through base class pointers. 
+Ans. Non-virtual operators only allow for partial assignments whereas virtual operators allow mixed assignments. Make the superclasses abstract, and make the operator= protected in the abstract class to prevent assignment through base class pointers. 
 
-23. Why do abstract classes need one pure virtual method and why the destructor? How do you override the abstract class destructor in the subclass.
+23. Why do abstract classes need one pure virtual method and why is it that method? How do you override the abstract class destructor in the subclass?
 
-every class has a destructor, user-defined or inbuilt which overrides the default destructor.
+Every class has a destructor, user-defined or inbuilt which overrides the default destructor.
 
-24. Define the observer patter in context of one class? in context of multiple classes? 
+24. Define the observer pattern in context of one class? in context of multiple classes? 
 
 Ans. In one class, there is a subject/publisher idea where the subject is observable, it generates data and publisher does the observing.
 In multiple class, there is a observer/subscriber idea where the observer observes data from the subscriber and responds to it.
@@ -208,21 +220,12 @@ The compiler specializes templates at source code level before compilation begin
 
 Ans: Node<Node<int> > list;
 
-39.What is purpose of Singleton design pattern?
-- Ensures a class has only one instance and provide a global point of access to it.
+38b. What are templates with non-type parameters?What's the advantage? Give an example.
 
-40. Advantages of Singleton Design?
--One access point to private static instance
--Reduced namespace : avoids global variables
--Creates singleton object on demand.
+Ans. Templates with non-type parameters can have default values and must get constant expressions, resolvable at compile time. This provides a compile-time way of having a variable length stack.
 
-41. What is atexit function?
--Takes a pointer to a funciton with signature void func(void);
--Returns 0 on success
+Ex. template <typename T=int, unsigned int N = 10>
 
-42. When is atexit called?
--func is automatically called when the program normally exits
--In multiple functions, LIFO order
 
 43. What does a->b(association) in UML diagrams mean?
 - In UML diagrams, a->b meAns.that a has a pointer/reference to b.
