@@ -470,15 +470,60 @@ When a vector::at (checked version of operator[]) goes out of bounds, when new f
 
 Note: the vector's code can detect the error but doesn't know what to do with it and the client can respond but can't detect the error.
 
+--------------x----------------x Needs to be sorted out *----------x-------x------
+
+List all the ways dependencies can occur in C++
+Ans.
+-executable depends on .o file (linking)
+-.o files depend on .C/.cc files(compiling)
+-.C/.cc files depend on .h files(including)
 
 
+What does make not understand?
+Ans. make doesn't understand the relationships between sources, the one that exists at source level.
+
+Note: make uses file change times to trigger rules that bring the dependence graph up-to-date.
+
+Simply define observer pattern
+
+Ans. Defines  a one-to-many dependency between objects, so that when one object changes state, all dependents are notified and updated.
 
 
+What is the intent of the decorator pattern?
 
+Ans. Attach additional responsibilities to an object dynamically
+Provides a flexible alternative to subclassing for extending additional functionality.
 
+What is slicing? Give an example of slicing. How can you avoid slicing?
 
+Ans. Polymorphic copying or assignment can result in object truncation, called slicing.
 
+struct B{
+	int i;
+};
 
+struct D : public B{
+	int j;
+};
+
+void f(B b){...}
+
+int main(){
+	D d;
+	B b;
+	f(d); //Truncate D to B
+	b = d; //Truncate D to B
+}
+
+To avoid slicing, use polmorphic array of pointers ex. D *arr[2] rather than D arr[2];
+
+Q: Briefly describe the factory method pattern.
+
+Defines an interface for creating an object, but let subclasses decide which class to instantiate. Basically, factory method pattern defers instantiation to subclasses.
+
+Q: How's factory method differnet from template pattern?
+
+Ans. template pattern allows the subclasses to redefine certain steps of the algorithm without changing the algorithm's structure.
 
 
 
