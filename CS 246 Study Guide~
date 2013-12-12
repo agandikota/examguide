@@ -106,10 +106,6 @@ Ans. The four steps are:
 3. Fields are initialized
 4. Constructor body runs
 
-What's the difference between implementation inheritance and type inheritance?
-Ans. -Implementation inheritance is reusing code within object.
--Type inheritance is reusing an object's type for creating objects with different behaviour, ex. polymorphism
-
 16.When giving access permission of private fields in superclass to subclasses, what's better than making private fields in superclass protected?
 Ans. create protected acccessor methods that only the subclass can access.
 
