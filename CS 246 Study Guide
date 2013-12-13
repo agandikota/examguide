@@ -525,6 +525,7 @@ Q: How's factory method differnet from template pattern?
 
 Ans. template pattern allows the subclasses to redefine certain steps of the algorithm without changing the algorithm's structure.
 
+Q: When is the 
 
 
 
